@@ -29,18 +29,38 @@ namespace Pilot
         float  speed          = tryGetFloat(signals, "speed", 0);
         bool   is_moving      = speed > 0.01f;
         bool   start_walk_end = false;
-
+        std::string name = getCurrentClipBaseName();
+        std::cout << name << "\n";
+        std::cout << is_clip_finish << "\n";
+        std::cout << is_jumping << "\n";
+        std::cout << speed << "\n";
+        std::cout << is_moving << "\n";
+        States next_state = m_state;
         switch (m_state)
         {
             case States::_idle:
-                /**** [0] ****/
-                break;
+              if (is_moving) {
+                next_state = States::_walk_start;
+              } else if (is_jumping) {
+                next_state = States::_jump_start_from_idle;
+              }
+              break;
             case States::_walk_start:
-                /**** [1] ****/
-                break;
+              if (is_clip_finish) {
+                next_state = States::_walk_run;
+              }
+              break;
             case States::_walk_run:
-                /**** [2] ****/
-                break;
+              std::cout << "_walk_run: " << "\n";
+              if (is_jumping) {
+                std::cout << "is_jumping  " << "\n";
+                next_state = States::_jump_start_from_walk_run;
+              } else if (start_walk_end && is_clip_finish) {
+                next_state = States::_walk_stop;
+              } else if (!is_moving) {
+                next_state = States::_idle;
+              }
+              break;
             case States::_walk_stop:
                 /**** [3] ****/
                 break;
@@ -65,6 +85,9 @@ namespace Pilot
             default:
                 break;
         }
+        m_state = next_state;
+        std::string name2 = getCurrentClipBaseName();
+        std::cout << "next state: " << name2 << "\n";
         return last_state != m_state;
     }
 
