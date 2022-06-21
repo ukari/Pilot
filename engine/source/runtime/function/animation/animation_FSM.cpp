@@ -39,10 +39,10 @@ namespace Pilot
         switch (m_state)
         {
             case States::_idle:
-              if (is_moving) {
-                next_state = States::_walk_start;
-              } else if (is_jumping) {
+              if (is_jumping) {
                 next_state = States::_jump_start_from_idle;
+              } else if (is_moving) {
+                next_state = States::_walk_start;
               }
               break;
             case States::_walk_start:
@@ -62,26 +62,40 @@ namespace Pilot
               }
               break;
             case States::_walk_stop:
-                /**** [3] ****/
-                break;
+              if (!is_moving && is_clip_finish) {
+                next_state = States::_idle;
+              }
+              break;
             case States::_jump_start_from_idle:
-                /**** [4] ****/
-                break;
+              if (is_clip_finish) {
+                next_state = States::_jump_loop_from_idle;
+              }
+              break;
             case States::_jump_loop_from_idle:
-                /**** [5] ****/
-                break;
+              if (!is_jumping) {
+                next_state = States::_jump_end_from_idle;
+              }
+              break;
             case States::_jump_end_from_idle:
-                /**** [6] ****/
-                break;
+              if (is_clip_finish) {
+                next_state = States::_idle;
+              }
+              break;
             case States::_jump_start_from_walk_run:
-                /**** [7] ****/
-                break;
+              if (is_clip_finish) {
+                next_state = States::_jump_loop_from_walk_run;
+              }
+              break;
             case States::_jump_loop_from_walk_run:
-                /**** [8] ****/
-                break;
+              if (!is_jumping) {
+                next_state = States::_jump_end_from_walk_run;
+              }
+              break;
             case States::_jump_end_from_walk_run:
-                /**** [9] ****/
-                break;
+              if (is_clip_finish) {
+                next_state = States::_walk_run;
+              }
+              break;
             default:
                 break;
         }
