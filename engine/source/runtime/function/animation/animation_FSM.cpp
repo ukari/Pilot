@@ -30,11 +30,11 @@ namespace Pilot
         bool   is_moving      = speed > 0.01f;
         bool   start_walk_end = false;
         std::string name = getCurrentClipBaseName();
-        std::cout << name << "\n";
-        std::cout << is_clip_finish << "\n";
-        std::cout << is_jumping << "\n";
-        std::cout << speed << "\n";
-        std::cout << is_moving << "\n";
+        std::cout << "name: " << name << "\n";
+        std::cout << "is_clip_finish: " << is_clip_finish << "\n";
+        std::cout << "is_jumping: " << is_jumping << "\n";
+        std::cout << "speed: " << speed << "\n";
+        std::cout << "is_moving: " << is_moving << "\n";
         States next_state = m_state;
         switch (m_state)
         {

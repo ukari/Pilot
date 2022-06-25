@@ -3,7 +3,7 @@
 #include "runtime/function/animation/animation_system.h"
 #include "runtime/function/framework/object/object.h"
 #include <runtime/engine.h>
-
+#include <iostream>
 namespace Pilot
 {
     void AnimationComponent::postLoadResource(std::weak_ptr<GObject> parent_object)
@@ -78,6 +78,7 @@ namespace Pilot
         if ((m_tick_in_editor_mode == false) && g_is_editor_mode)
             return;
         std::string name = m_animation_fsm.getCurrentClipBaseName();
+        std::cout << "current clip base name : " << name << "\n";
         for (auto blend_state : m_animation_res.m_clips)
         {
             if (blend_state->m_name == name)

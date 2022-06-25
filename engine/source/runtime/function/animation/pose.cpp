@@ -1,5 +1,5 @@
 #include "runtime/function/animation/pose.h"
-
+#include <iostream>
 using namespace Pilot;
 
 AnimationPose::AnimationPose() { m_reorder = false; }
@@ -56,19 +56,21 @@ void AnimationPose::extractFromClip(std::vector<Transform>& bones, const Animati
 
 void AnimationPose::blend(const AnimationPose& pose)
 {
+  
     for (int i = 0; i < m_bone_poses.size(); i++)
     {
         auto&       bone_trans_one = m_bone_poses[i];
         const auto& bone_trans_two = pose.m_bone_poses[i];
-
-        // float sum_weight =
-        // if (sum_weight != 0)
+        float sum_weight = m_weight.m_blend_weight[i] + pose.m_weight.m_blend_weight[i];
+        if (sum_weight != 0)
         {
-            // float cur_weight =
+          float cur_weight = pose.m_weight.m_blend_weight[i];
+          float ratio = cur_weight / sum_weight;
             // m_weight.m_blend_weight[i] =
-            // bone_trans_one.m_position  =
-            // bone_trans_one.m_scale     =
-            // bone_trans_one.m_rotation  =
+          bone_trans_one.m_position  = Vector3::lerp(bone_trans_one.m_position, bone_trans_two.m_position, ratio);
+          bone_trans_one.m_scale     = Vector3::lerp(bone_trans_one.m_scale, bone_trans_two.m_scale, ratio);
+            bone_trans_one.m_rotation  = Quaternion::nLerp(
+            ratio, bone_trans_one.m_rotation, bone_trans_two.m_rotation, true);
         }
     }
 }
