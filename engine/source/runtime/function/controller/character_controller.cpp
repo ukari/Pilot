@@ -6,7 +6,7 @@
 #include "runtime/function/framework/world/world_manager.h"
 #include "runtime/function/global/global_context.h"
 #include "runtime/function/physics/physics_scene.h"
-
+#include <iostream>
 namespace Pilot
 {
     CharacterController::CharacterController(const Capsule& capsule) : m_capsule(capsule)
@@ -84,7 +84,13 @@ namespace Pilot
            horizontal_displacement.length(),
            hits))
         {
-            final_position -= hits[0].hit_distance * horizontal_direction;
+            float l = hits[0].hit_normal.length() * horizontal_direction.dotProduct(hits[0].hit_normal);
+            Vector3 projection = l * hits[0].hit_normal;
+            Vector3 slide_direction = (horizontal_direction - projection) * Vector3(1.0f, 1.0f, 0.0f);
+            slide_direction.normalise();
+            final_position += hits[0].hit_distance * slide_direction * 2.0f; //* hits[0].hit_normal;
+            // std::cout << "horizontal normal: " << horizontal_direction.x << " " << horizontal_direction.y << " " << horizontal_direction.z << "\n";
+            // std::cout << "hit normal: " << hits[0].hit_normal.x << " " << hits[0].hit_normal.y << " " << hits[0].hit_normal.z << "\n";
         }
         else
         {

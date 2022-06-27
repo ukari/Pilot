@@ -30,11 +30,11 @@ namespace Pilot
         bool   is_moving      = speed > 0.01f;
         bool   start_walk_end = false;
         std::string name = getCurrentClipBaseName();
-        std::cout << "name: " << name << "\n";
-        std::cout << "is_clip_finish: " << is_clip_finish << "\n";
-        std::cout << "is_jumping: " << is_jumping << "\n";
-        std::cout << "speed: " << speed << "\n";
-        std::cout << "is_moving: " << is_moving << "\n";
+        // std::cout << "name: " << name << "\n";
+        // std::cout << "is_clip_finish: " << is_clip_finish << "\n";
+        // std::cout << "is_jumping: " << is_jumping << "\n";
+        // std::cout << "speed: " << speed << "\n";
+        // std::cout << "is_moving: " << is_moving << "\n";
         States next_state = m_state;
         switch (m_state)
         {
@@ -51,9 +51,9 @@ namespace Pilot
               }
               break;
             case States::_walk_run:
-              std::cout << "_walk_run: " << "\n";
+              //std::cout << "_walk_run: " << "\n";
               if (is_jumping) {
-                std::cout << "is_jumping  " << "\n";
+                //std::cout << "is_jumping  " << "\n";
                 next_state = States::_jump_start_from_walk_run;
               } else if (start_walk_end && is_clip_finish) {
                 next_state = States::_walk_stop;
@@ -100,8 +100,8 @@ namespace Pilot
                 break;
         }
         m_state = next_state;
-        std::string name2 = getCurrentClipBaseName();
-        std::cout << "next state: " << name2 << "\n";
+        // std::string name2 = getCurrentClipBaseName();
+        // std::cout << "next state: " << name2 << "\n";
         return last_state != m_state;
     }
 
