@@ -84,7 +84,7 @@ namespace Pilot
            horizontal_displacement.length(),
            hits))
         {
-           final_position +=  hits[0].hit_distance * horizontal_direction;;
+            final_position -= hits[0].hit_distance * horizontal_direction;
         }
         else
         {
