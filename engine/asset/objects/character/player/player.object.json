@@ -97,7 +97,8 @@
                         },
                         "$typeName": "PhysicsControllerConfig"
                     },
-                    "jump_height": 1,
+                    "jump_height": 10,
+                    "vertical_move_speed": 5.47723,
                     "max_move_speed_ratio": 1,
                     "max_sprint_speed_ratio": 2,
                     "move_acceleration": 2,

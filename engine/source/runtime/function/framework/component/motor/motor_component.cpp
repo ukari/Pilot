@@ -13,7 +13,7 @@
 #include "runtime/function/global/global_context.h"
 #include "runtime/function/input/input_system.h"
 #include "runtime/function/physics/physics_scene.h"
-
+#include <iostream>
 namespace Piccolo
 {
     void MotorComponent::postLoadResource(std::weak_ptr<GObject> parent_object)
@@ -120,10 +120,11 @@ namespace Piccolo
         std::shared_ptr<PhysicsScene> physics_scene =
             g_runtime_global_context.m_world_manager->getCurrentActivePhysicsScene().lock();
         ASSERT(physics_scene);
-
+        //std::cout << "m_jump_height: " << m_motor_res.m_jump_height << std::endl;
+        
         if (m_motor_res.m_jump_height == 0.f)
             return;
-
+        
         const float gravity = physics_scene->getGravity().length();
 
         if (m_jump_state == JumpState::idle)
@@ -132,6 +133,8 @@ namespace Piccolo
             {
                 m_jump_state                  = JumpState::rising;
                 m_vertical_move_speed         = Math::sqrt(m_motor_res.m_jump_height * 2 * gravity);
+                std::cout << "m_motor_res.m_vertical_move_speed: " << m_motor_res.m_vertical_move_speed << std::endl;
+                std::cout << "m_vertical_move_speed: " << m_vertical_move_speed << std::endl;
                 m_jump_horizontal_speed_ratio = m_move_speed_ratio;
             }
             else
